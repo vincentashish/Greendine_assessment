@@ -1,4 +1,4 @@
-/* Assignment: Greendzine Technologies
+/* Assignment: Greendine Technologies
 Candidate: Nikhil Sekhar */
 
 // Imports
@@ -44,10 +44,14 @@ int ISR_DIsampling(){
          * Counter hasn't reached 10, therefore just 
          * update g_AppDIpinSts to match what is there in g_ReadDIpinSts
          * without overrighting currently set bits (1s) to 0.
+         * 
+         * Update counter, 
+         *
+         * Return
          */
 
         g_AppDIpinSts = g_AppDIpinSts | g_ReadDIpinSts;
-        counter++;
+        counter++; 
         return g_AppDIpinSts;
     }
 }
