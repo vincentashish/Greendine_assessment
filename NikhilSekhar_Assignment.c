@@ -22,24 +22,12 @@ uint8_t counter = 0;
  * 
  * 
  */
+
+
+
 int ISR_DIsampling(){
-    if (counter == 10){
-        /*
-        * 10 ISR calls made, reset g_AppDIpinSts and update it with real-time values
-        */
-       g_AppDIpinSts = g_AppDIpinSts & 0;              //Reseting all DI to zero
-       g_AppDIpinSts = g_AppDIpinSts | g_ReadDIpinSts; // "Or-ing" the current values into the required 
-       counter = 0;                                    //resetting counter
-       return g_AppDIpinSts;                           //To conform to given prototype
-       /*
-       *Ideally for the function to be reentrant, we should avoid 
-       accessing global variables, this should especially execised 
-       within ISRs. However this function will adhere to the assignment
-       requirements. Kindly send me feedback if I am wrong on this.
-       */
-    }
-    else {
-        /**
+    if (counter != 10){
+       /**
          * 
          * Counter hasn't reached 10, therefore just 
          * update g_AppDIpinSts to match what is there in g_ReadDIpinSts
@@ -53,5 +41,21 @@ int ISR_DIsampling(){
         g_AppDIpinSts = g_AppDIpinSts | g_ReadDIpinSts;
         counter++; 
         return g_AppDIpinSts;
+
+    }
+    else {
+         /*
+        * 10 ISR calls made, reset g_AppDIpinSts and update it with real-time values
+        */
+       g_AppDIpinSts = g_AppDIpinSts & 0;              //Reseting all DI to zero
+       g_AppDIpinSts = g_AppDIpinSts | g_ReadDIpinSts; // "Or-ing" the current values into the required 
+       counter = 0;                                    //resetting counter
+       return g_AppDIpinSts;                           //To conform to given prototype
+       /*
+       *Ideally for the function to be reentrant, we should avoid 
+       accessing global variables, this should especially execised 
+       within ISRs. However this function will adhere to the assignment
+       requirements. Kindly send me feedback if I am wrong on this.
+       */
     }
 }
